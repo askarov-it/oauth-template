@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+#  db:
+#    image: postgres:14
+#    restart: always
+#    container_name: fulefinance-postgres
+#    hostname: fulefinance-postgres
+#    environment:
+#      - POSTGRES_USER=POSTGRES_USER
+#      - POSTGRES_PASSWORD=POSTGRES_PASSWORD
+#      - POSTGRES_DB=POSTGRES_DB
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#    networks:
+#      - fulefinance
+#    env_file: "./docker/environments.local"
+#
+  api:
+    container_name: oauth-api
+    restart: always
+    hostname: oauth-api
+    build: .
+    ports:
+      - 8001:8001
+    env_file: "./docker/environments.local"
+    networks:
+      - oauth2-task
+#    depends_on:
+#      - db
+
+#volumes:
+#  postgres_data:
+
+networks:
+  oauth2-task:
+    name: oauth2-task-complex

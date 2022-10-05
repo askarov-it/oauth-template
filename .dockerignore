@@ -1,0 +1,5 @@
+node_modules
+.next
+.idea
+dist
+package-lock.json
