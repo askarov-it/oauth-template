@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 export type OAuthRequest<T> = Request & {
   user: T
