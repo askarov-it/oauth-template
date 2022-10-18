@@ -26,6 +26,6 @@ export class UsersService {
 
   async save(user: UserDto): Promise<UserDto> {
     this.users.push(user)
-    return user;
+      return user;
   }
 }

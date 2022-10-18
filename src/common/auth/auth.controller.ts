@@ -1,5 +1,5 @@
 import { Controller, UseGuards, Post, Body, Get, Res, Req } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { LocalAuthGuard, GoogleStrategyGuard } from './guards';
 import { AuthService } from './auth.service';
 import { LoginResponseDto, AccessTokenBodyDto } from './dto';
@@ -19,14 +19,14 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(GoogleStrategyGuard)
-  async googleAuth(@Req() req: OAuthRequest<unknown>) {
+  async googleAuth(@Req() req: OAuthRequest<UserDto>) {
     return req.user;
   }
 
   @UseGuards(GoogleStrategyGuard)
   @Get('google/redirect')
   async googleAuthRedirect(@Req() req: OAuthRequest<UserDto>, @Res() res: Response) {
-    const { accessToken } = await this.authService.generateAccessToken(req.user);
+    const { accessToken } = await this.authService.getAccessToken(req.user);
 
     res.cookie(constants.jwt.SESSION_COOKIE_KEY, accessToken, {
       httpOnly: true,

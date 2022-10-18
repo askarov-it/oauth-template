@@ -20,6 +20,16 @@ export class AuthService {
     return null;
   }
 
+  async getAccessToken(body: AccessTokenBodyDto) {
+    let user = await this.usersService.findOne(body.username);
+
+    if (!user) {
+      user = await this.registerUser(body)
+    }
+
+    return this.generateAccessToken(user);
+  }
+
   generateAccessToken(user: AccessTokenBodyDto): AccessTokenDto {
     const payload = { username: user.username, sub: user.id };
     return {
@@ -27,13 +37,7 @@ export class AuthService {
     };
   }
 
-  async registerUser(user: UserDto): Promise<AccessTokenDto> {
-    const newUser: UserDto = await this.usersService.save(user);
-    return this.generateAccessToken({
-      id: newUser.id,
-      email: newUser.email,
-      provider: newUser.provider,
-      username: newUser.username,
-    });
+  async registerUser(user: UserDto): Promise<UserDto> {
+    return this.usersService.save(user);
   }
 }
